@@ -21,10 +21,10 @@ fun MyNavigation (
             OnBoarding(navHostController)
         }
         composable(HomeScreen.route) {
-            Home()
+            Home(navHostController)
         }
         composable(ProfileScreen.route) {
-            Profile()
+            Profile(navHostController)
         }
     }
 }
