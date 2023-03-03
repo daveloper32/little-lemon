@@ -1,6 +1,7 @@
 package com.daveloper.littlelemon
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
+import com.daveloper.littlelemon.composables.OnBoarding
 import com.daveloper.littlelemon.ui.theme.LittleLemonTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,10 +27,18 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    OnBoarding()
                 }
             }
         }
+        ViewCompat
+            .setOnApplyWindowInsetsListener(
+                findViewById(android.R.id.content)
+            ) { view, insets ->
+                val bottom = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+                view.updatePadding(bottom = bottom)
+                insets
+            }
     }
 }
 
