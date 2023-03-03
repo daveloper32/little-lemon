@@ -14,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.navigation.compose.rememberNavController
+import com.daveloper.littlelemon.composables.MyNavigation
 import com.daveloper.littlelemon.composables.OnBoarding
 import com.daveloper.littlelemon.ui.theme.LittleLemonTheme
 
@@ -27,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    OnBoarding()
+                    MyNavigation(navHostController = rememberNavController())
                 }
             }
         }
