@@ -65,7 +65,8 @@ fun Home(
                 ) { newFilterText: String ->
                     localMenuData = if (newFilterText.isNotEmpty()) {
                         val res = data.value?.filter {
-                            it.title.lowercase().contains(newFilterText)
+                            it.title.lowercase().contains(newFilterText) ||
+                            it.description.lowercase().contains(newFilterText)
                         } ?: emptyList<MenuItemEntity>()
                         Log.i("HomeScreen", "onFilterTextValueChange() filtered values: $res")
                         mutableStateOf(res)
