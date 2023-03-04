@@ -38,7 +38,10 @@ fun Home(
     navController: NavHostController,
     data: State<List<MenuItemEntity>?>
 ) {
-    val context = LocalContext
+    var localMenuData by remember {
+        mutableStateOf(data)
+    }
+    val context = LocalContext.current
     var filterText by remember {
         mutableStateOf("")
     }
@@ -60,16 +63,34 @@ fun Home(
                 HeaderLittleLemon(
                     filterText
                 ) { newFilterText: String ->
+                    localMenuData = if (newFilterText.isNotEmpty()) {
+                        val res = data.value?.filter {
+                            it.title.lowercase().contains(newFilterText)
+                        } ?: emptyList<MenuItemEntity>()
+                        Log.i("HomeScreen", "onFilterTextValueChange() filtered values: $res")
+                        mutableStateOf(res)
+                    } else {
+                        data
+                    }
                     filterText = newFilterText
                 }
                 ChipsContainer(
-                    context = context.current
-                ) {
-                    Log.i("HomeScreen", "onSomeChipClicked() called -> $it")
+                    context = context
+                ) { categoryType ->
+                    Log.i("HomeScreen", "onSomeChipClicked() called -> $categoryType")
+                    val res = if (categoryType == CategoryType.ALL) {
+                        data.value
+                    } else {
+                        data.value?.filter {
+                            it.category.toCategoryType(context) == categoryType
+                        } ?: emptyList<MenuItemEntity>()
+                    }
+                    Log.i("HomeScreen", "onSomeChipClicked() filtered values: $res")
+                    localMenuData = mutableStateOf(res)
                 }
             }
             ProductsList(
-                menuItemData = data.value?: emptyList()
+                menuItemData = localMenuData.value?: emptyList()
             )
         }
     }
@@ -172,6 +193,9 @@ private fun HeaderLittleLemon(
                 modifier = Modifier
                     .fillMaxWidth()
                 ,
+                placeholder = {
+                    Text(text = "Enter search phrase")
+                },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_search),
@@ -257,7 +281,7 @@ fun ChipCustom(
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults
             .buttonColors(
-                backgroundColor = Color.LightGray
+                backgroundColor = Gray
             )
         ,
         modifier = Modifier
@@ -269,7 +293,7 @@ fun ChipCustom(
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = karlaRegularFont,
-            color = Color.Gray
+            color = Primary
         )
     }
     

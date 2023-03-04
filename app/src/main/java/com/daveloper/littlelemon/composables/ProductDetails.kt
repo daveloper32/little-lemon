@@ -21,6 +21,7 @@ import com.daveloper.littlelemon.R
 import com.daveloper.littlelemon.data.model.MenuItemEntity
 import com.daveloper.littlelemon.data.model.MenuItemNetwork
 import com.daveloper.littlelemon.ui.theme.GrayTransparent
+import com.daveloper.littlelemon.ui.theme.PrimaryLight
 import com.daveloper.littlelemon.ui.theme.karlaRegularFont
 import com.daveloper.littlelemon.utils.isValidUrl
 
@@ -71,7 +72,7 @@ fun ProductDetails(
                     Text(
                         text = "$${menuItemEntity.price}",
                         fontSize = 18.sp,
-                        color = Color.Gray,
+                        color = PrimaryLight,
                         fontFamily = karlaRegularFont,
                     )
                 }

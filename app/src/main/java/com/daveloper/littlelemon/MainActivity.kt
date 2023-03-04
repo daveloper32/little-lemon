@@ -1,5 +1,6 @@
 package com.daveloper.littlelemon
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -30,6 +31,7 @@ import com.daveloper.littlelemon.data.network.NetworkUtils
 import com.daveloper.littlelemon.navigation.HomeScreen
 import com.daveloper.littlelemon.navigation.OnboardingScreen
 import com.daveloper.littlelemon.ui.theme.LittleLemonTheme
+import com.daveloper.littlelemon.utils.isInternetAvailable
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
@@ -80,6 +82,7 @@ class MainActivity : ComponentActivity() {
         refreshMenuDataFromServer()
     }
 
+    @SuppressLint("UnrememberedMutableState")
     @Composable
     private fun MainViewComposable(
         navController: NavHostController,
@@ -122,7 +125,10 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun refreshMenuDataFromServer() {
-        if (littleLemonPreferencesManager.userIsLoggedIn()) {
+        if (
+            littleLemonPreferencesManager.userIsLoggedIn() &&
+            this.isInternetAvailable()
+        ) {
             lifecycleScope.launch(Dispatchers.IO) {
                 if (database.menuItemDao().isEmpty()) {
                     // Get data from network
