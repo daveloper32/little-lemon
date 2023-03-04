@@ -15,14 +15,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.daveloper.littlelemon.R
-import com.daveloper.littlelemon.data.model.DishItemNetwork
+import com.daveloper.littlelemon.data.model.MenuItemEntity
+import com.daveloper.littlelemon.data.model.MenuItemNetwork
 import com.daveloper.littlelemon.ui.theme.GrayTransparent
 import com.daveloper.littlelemon.ui.theme.karlaRegularFont
+import com.daveloper.littlelemon.utils.isValidUrl
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ProductDetails(
-    dishItemNetwork: DishItemNetwork
+    menuItemEntity: MenuItemEntity
 ) {
     Column {
         Column(
@@ -34,7 +39,7 @@ fun ProductDetails(
         ) {
             // Dish name
             Text(
-                text = dishItemNetwork.title,
+                text = menuItemEntity.title,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = karlaRegularFont,
@@ -53,7 +58,7 @@ fun ProductDetails(
 
                     // Dish explanation
                     Text(
-                        text = dishItemNetwork.description,
+                        text = menuItemEntity.description,
                         fontFamily = karlaRegularFont,
                         color = Color.DarkGray,
                         fontSize = 16.sp,
@@ -64,18 +69,20 @@ fun ProductDetails(
                     )
                     // Dish price
                     Text(
-                        text = "$${dishItemNetwork.price}",
+                        text = "$${menuItemEntity.price}",
                         fontSize = 18.sp,
                         color = Color.Gray,
                         fontFamily = karlaRegularFont,
                     )
                 }
-                Image(
-                    painter = painterResource(R.drawable.hero_image),
-                    contentDescription = "Dish image",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(80.dp)
-                )
+                if (menuItemEntity.imageUrl.isValidUrl()) {
+                    GlideImage(
+                        model = menuItemEntity.imageUrl,
+                        contentDescription = "Dish image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.size(80.dp)
+                    )
+                }
             }
         }
         Box(
@@ -91,11 +98,13 @@ fun ProductDetails(
 @Composable
 fun ProductDetailsPreview() {
     ProductDetails(
-        DishItemNetwork(
+        MenuItemEntity(
+            id = 1,
             title = "Greek Salad",
             description = "The famous greek salad of crispy lettuce, peppers, olives and our Chicago",
             price = 12.99,
-            imageUrl = ""
+            imageUrl = "",
+            category = "mains"
         )
     )
 }

@@ -15,10 +15,14 @@ fun String.toCategoryType(
     context: Context
 ): CategoryType {
     return when(this) {
-        context.getString(R.string.lab_starters) -> CategoryType.STARTERS
-        context.getString(R.string.lab_mains) -> CategoryType.MAINS
-        context.getString(R.string.lab_desserts) -> CategoryType.DESSERTS
-        context.getString(R.string.lab_sides) -> CategoryType.SIDES
+        context.getString(R.string.lab_starters),
+        context.getString(R.string.lab_starters).lowercase() -> CategoryType.STARTERS
+        context.getString(R.string.lab_mains),
+        context.getString(R.string.lab_mains).lowercase() -> CategoryType.MAINS
+        context.getString(R.string.lab_desserts),
+        context.getString(R.string.lab_desserts).lowercase() -> CategoryType.DESSERTS
+        context.getString(R.string.lab_sides),
+        context.getString(R.string.lab_sides).lowercase() -> CategoryType.SIDES
         else -> CategoryType.UNKNOWN
     }
 }

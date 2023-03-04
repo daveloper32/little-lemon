@@ -31,7 +31,8 @@ import com.daveloper.littlelemon.utils.isValidEmail
 
 @Composable
 fun OnBoarding(
-    navController: NavHostController
+    navController: NavHostController,
+    onRegisterSuccess: () -> Unit
 ) {
     val context = LocalContext.current
     val littleLemonPreferencesManager: LittleLemonPreferencesManager =
@@ -194,6 +195,7 @@ fun OnBoarding(
                                 "Registration successful!",
                                 Toast.LENGTH_SHORT
                             ).show()
+                            onRegisterSuccess.invoke()
                             navController.navigate(HomeScreen.route)
                         } else {
                             if (

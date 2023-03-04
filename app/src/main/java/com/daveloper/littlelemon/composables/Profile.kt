@@ -23,7 +23,8 @@ import com.daveloper.littlelemon.ui.theme.*
 
 @Composable
 fun Profile(
-    navController: NavHostController
+    navController: NavHostController,
+    onLogoutAction: () -> Unit
 ) {
     val context = LocalContext.current
     val littleLemonPreferencesManager: LittleLemonPreferencesManager =
@@ -163,6 +164,7 @@ fun Profile(
         Button(
             onClick = {
                 clearLocalData(littleLemonPreferencesManager)
+                onLogoutAction.invoke()
                 navController.navigate(OnboardingScreen.route)
             },
             colors = ButtonDefaults.buttonColors(

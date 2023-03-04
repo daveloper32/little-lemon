@@ -28,13 +28,15 @@ import com.daveloper.littlelemon.R
 import com.daveloper.littlelemon.data.enums.CategoryType
 import com.daveloper.littlelemon.data.enums.getAllCategoryTypeNames
 import com.daveloper.littlelemon.data.enums.toCategoryType
-import com.daveloper.littlelemon.data.model.DishItemNetwork
+import com.daveloper.littlelemon.data.model.MenuItemEntity
+import com.daveloper.littlelemon.data.model.MenuItemNetwork
 import com.daveloper.littlelemon.navigation.ProfileScreen
 import com.daveloper.littlelemon.ui.theme.*
 
 @Composable
 fun Home(
-    navController: NavHostController
+    navController: NavHostController,
+    data: State<List<MenuItemEntity>?>
 ) {
     val context = LocalContext
     var filterText by remember {
@@ -67,26 +69,7 @@ fun Home(
                 }
             }
             ProductsList(
-                dishItemNetworks = listOf(
-                    DishItemNetwork(
-                        "Test",
-                        "Test",
-                        200.0,
-                        ""
-                    ),
-                    DishItemNetwork(
-                        "Test",
-                        "Test",
-                        200.0,
-                        ""
-                    ),
-                    DishItemNetwork(
-                        "Test",
-                        "Test",
-                        200.0,
-                        ""
-                    ),
-                )
+                menuItemData = data.value?: emptyList()
             )
         }
     }
@@ -293,10 +276,10 @@ fun ChipCustom(
 }
 
 fun LazyListScope.ProductsList(
-    dishItemNetworks: List<DishItemNetwork>
+    menuItemData: List<MenuItemEntity>
 ) {
-    items(dishItemNetworks) {
-        ProductDetails(dishItemNetwork = it)
+    items(menuItemData) {
+        ProductDetails(it)
     }
 }
 
