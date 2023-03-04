@@ -11,17 +11,20 @@ import com.daveloper.littlelemon.navigation.ProfileScreen
 
 @Composable
 fun MyNavigation (
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    userIsLogged: Boolean = false
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = OnboardingScreen.route
+        startDestination = if (userIsLogged) { HomeScreen.route } else { OnboardingScreen.route }
     ) {
         composable(OnboardingScreen.route) {
             OnBoarding(navHostController)
         }
         composable(HomeScreen.route) {
-            Home(navHostController)
+            Home(
+                navHostController
+            )
         }
         composable(ProfileScreen.route) {
             Profile(navHostController)

@@ -25,6 +25,7 @@ import androidx.navigation.NavHostController
 import com.daveloper.littlelemon.R
 import com.daveloper.littlelemon.data.manager.LittleLemonPreferencesManager
 import com.daveloper.littlelemon.navigation.HomeScreen
+import com.daveloper.littlelemon.navigation.ProfileScreen
 import com.daveloper.littlelemon.ui.theme.*
 import com.daveloper.littlelemon.utils.isValidEmail
 
@@ -35,11 +36,11 @@ fun OnBoarding(
     val context = LocalContext.current
     val littleLemonPreferencesManager: LittleLemonPreferencesManager =
         LittleLemonPreferencesManager(context)
-    if (
+    /*if (
         littleLemonPreferencesManager.userIsLoggedIn()
     ) {
         navController.navigate(HomeScreen.route)
-    } else {
+    } else {*/
         var firstName by remember {
             mutableStateOf("")
         }
@@ -234,7 +235,7 @@ fun OnBoarding(
                 }
             }
         }
-    }
+    //}
 }
 
 fun saveUserDataOnLocal(
